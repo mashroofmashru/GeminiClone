@@ -17,14 +17,32 @@ const ContextProvider = (props) => {
     }, 75 * index);
   };
 
-  const onsent = async () => {
+  const newChat =()=>{
+    setLoading(false);
+    setShowResult(false)
+  }
+
+
+  const onsent = async (prompt) => {
     setResultData("");
     setLoading(true);
     setShowResult(true);
     setRecentPrompt(input);
     setPrevPrompt((prev) => [...prev, input]);
     const response = await genmain(input);
-    console.log(response)
+
+    // if (prompt !== undefined) {
+    //   console.log("Prompt provided:", prompt);
+    //   setRecentPrompt(prompt);
+    //   response = await genmain(prompt);
+    // } else {
+    //   console.log("Using input:", input);
+    //   setRecentPrompt(input);
+    //   setPrevPrompt((prev) => [...prev, input]);
+    //   response = await genmain(input);
+    // }
+
+
     let html = response;
 
     html = html.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
@@ -68,6 +86,7 @@ const ContextProvider = (props) => {
     resultData,
     setResultData,
     onsent,
+    newChat,
   };
 
   return (

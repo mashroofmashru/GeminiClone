@@ -27,19 +27,19 @@ function Main() {
                             <p>How can I help you today?</p>
                         </div>
                         <div className="cards">
-                            <div className="card">
+                            <div className="card" onClick={()=>setInput("Suggest beautiful place to see on upcoming road trip")}>
                                 <p>Suggest beautiful place to see on upcoming road trip</p>
                                 <img src={assets.compass_icon} alt="" />
                             </div>
-                            <div className="card">
+                            <div className="card" onClick={()=>setInput("Briefly summarize this concept: urban planning")}>
                                 <p>Briefly summarize this concept: urban planning</p>
                                 <img src={assets.bulb_icon} alt="" />
                             </div>
-                            <div className="card">
+                            <div className="card" onClick={()=>setInput("Brainstorming team bonding activities for our work retreat")}>
                                 <p>Brainstorming team bonding activities for our work retreat</p>
                                 <img src={assets.message_icon} alt="" />
                             </div>
-                            <div className="card">
+                            <div className="card" onClick={()=>setInput("Improve the readability of the following code")}>
                                 <p>Improve the readability of the following code</p>
                                 <img src={assets.code_icon} alt="" />
                             </div>
@@ -70,7 +70,7 @@ function Main() {
                         <div>
                             <img src={assets.gallery_icon} alt="galleryIcon" />
                             <img src={assets.mic_icon} alt="micIcon" />
-                            <img onClick={onsent} src={assets.send_icon} alt="sendIcon" />
+                            {input&&<img onClick={onsent} src={assets.send_icon} alt="sendIcon" />}
                         </div>
                     </div>
                     <p className="bottom-info">

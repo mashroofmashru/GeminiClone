@@ -22,6 +22,11 @@
 .main-container{
     max-width: 900px;
     margin: auto;
+    overflow-y: scroll;
+}
+
+.main-container::-webkit-scrollbar{
+    display: none;
 }
 
 .main .greet{
@@ -74,12 +79,14 @@
 }
 
 .main-bottom{
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
+    background-color: white;
     max-width: 900px;
-    padding: 0px 20px;
+    padding: 10px 20px;
     margin: auto;
+    z-index: 2;
 }
 
 .search-box{
@@ -90,6 +97,7 @@
     background-color: #f0f4f9;
     padding: 10px 20px;
     border-radius: 50px;
+    
 }
 
 .search-box img{
@@ -176,4 +184,27 @@ result.title{
     font-size: 17px;
     font-weight: 300px;
     line-height: 1.8;
+}
+
+@media (max-width:600px){
+    .main-bottom input{
+        flex: none;
+        width: 250px;
+    }
+    .main-bottom img{
+        width: 20px;
+    }
+    .search-box{
+        padding: 5px 10px;
+    }
+    .search-box div{
+        gap: 5px;
+    }
+    .main .bottom-info{
+        font-size: 8px;
+        font-weight: 300px;
+    }
+    .main-container{
+        padding-bottom: 80px;
+    }
 }

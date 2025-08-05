@@ -1,28 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import './Main.css'
 import { assets } from '../../assets/assets'
-import genmain from '../../config/config'
+import { Context } from "../../context/context";
 function Main() {
+    const {
+        input,
+        setInput,
+        onsent,
+        resultData,
+        loading,
+        showResult,
+        recentPrompt
+    } = useContext(Context);
 
-    const [input, setInput] = useState("");
-    const [recentPrompt, setRecentPrompt] = useState("");
-    const [prevPrompt, setPrevPrompt] = useState([]);
-    const [showResult, setShowResult] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [resultData, setResultData] = useState("");
-
-
-    const onsent = async () => {
-        console.log("function running");
-        setResultData("");
-        setLoading(true);
-        setRecentPrompt(input);
-        const response = await genmain(input);
-        setShowResult(true)
-        setResultData(response);
-        setLoading(false);
-        setInput("");
-    }
     return (
         <div className='main'>
             <div className="nav">
@@ -73,7 +63,6 @@ function Main() {
                             <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
                         </div>
                     </div>
-
                 }
                 <div className="main-bottom">
                     <div className="search-box">

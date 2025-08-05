@@ -1,38 +1,80 @@
-// import { createContext,useState} from "react";
-// import genmain from "../config/config";
+import React, { createContext, useState } from 'react';
+import genmain from '../config/config';
 
-// export const Context = createContext();
+export const Context = createContext();
 
-// const ContextProvider = (prompt) => {
-//     const [input,setInput] = useState("");
-//     const [recentPrompt,setRecentPrompt] = useState("");
-//     const [prevPrompt,setPrevPrompt] = useState([]);
-//     const [showResult,setShowResult] = useState(false);
-//     const [loading,setLoading] = useState(false);
-//     const [resultData,setResultData] = useState("");
+const ContextProvider = (props) => {
+  const [input, setInput] = useState("");
+  const [recentPrompt, setRecentPrompt] = useState("");
+  const [prevPrompt, setPrevPrompt] = useState([]);
+  const [showResult, setShowResult] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [resultData, setResultData] = useState("");
 
-//     const onsent = async (prompt) =>{
-//         await genmain(prompt);
-//     }
+  const delayPara = (index, newWord) => {
+    setTimeout(() => {
+      setResultData((prev) => prev + newWord);
+    }, 75 * index);
+  };
 
-//     const contextValue = {
-//         prevPrompt,
-//         setPrevPrompt,
-//         onsent,
-//         setRecentPrompt,
-//         recentPrompt,
-//         showResult,
-//         loading,
-//         resultData,
-//         input,
-//         setInput,
-//     }
+  const onsent = async () => {
+    setResultData("");
+    setLoading(true);
+    setShowResult(true);
+    setRecentPrompt(input);
+    setPrevPrompt((prev) => [...prev, input]);
+    const response = await genmain(input);
+    console.log(response)
+    let html = response;
 
-//     return(
-//         <Context.Provider value={contextValue}>
-//             {props.children}
-//         </Context.Provider>
-//     )
-// }
+    html = html.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
 
-// export default ContextProvider
+    html = html.replace(/^### (.*$)/gim, "<h3>$1</h3>");
+    html = html.replace(/^## (.*$)/gim, "<h2>$1</h2>");
+    html = html.replace(/^# (.*$)/gim, "<h1>$1</h1>");
+
+    if (html.match(/^\* /gm)) {
+      html = html.replace(/^\* (.*$)/gim, "<li>$1</li>");
+      html = "<ul>" + html + "</ul>";
+    }
+
+    html = html.replace(/\n\s*\n/g, "</p><p>");
+    html = "<p>" + html + "</p>";
+    html = html.replace(/\n/g, "<br>");
+
+    html = html.replace(/\*/g, "");
+
+    const newResponseArray = html.split(" ");
+    for (let i = 0; i < newResponseArray.length; i++) {
+      const nextWord = newResponseArray[i];
+      delayPara(i, nextWord + " ");
+    }
+
+    setLoading(false);
+    setInput("");
+  };
+
+  const contextValue = {
+    input,
+    setInput,
+    recentPrompt,
+    setRecentPrompt,
+    prevPrompt,
+    setPrevPrompt,
+    showResult,
+    setShowResult,
+    loading,
+    setLoading,
+    resultData,
+    setResultData,
+    onsent,
+  };
+
+  return (
+    <Context.Provider value={contextValue}>
+      {props.children}
+    </Context.Provider>
+  );
+};
+
+export default ContextProvider;

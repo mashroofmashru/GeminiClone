@@ -1,39 +1,45 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './sidebar.css'
-import {assets} from '../../assets/assets'
+import { assets } from '../../assets/assets'
+import { Context } from "../../context/context";
 function Sidebar() {
-    const [extended,setExtended]=useState(false);
+  const [extended, setExtended] = useState(false);
+  const {onsent, prevPrompt, setRecentPrompt} = useContext(Context);
   return (
     <div className='sidebar'>
       <div className="top">
-        <img src={assets.menu_icon} alt="" className="menu" onClick={()=>setExtended(prev=>!prev)}/>
+        <img src={assets.menu_icon} alt="" className="menu" onClick={() => setExtended(prev => !prev)} />
         <div className="new-chat">
-            <img src={assets.plus_icon} alt="" />
-            {extended&&<p>New Chat</p>}
+          <img src={assets.plus_icon} alt="" />
+          {extended && <p>New Chat</p>}
         </div>
-        {extended?
-        <div className='recent'>
+        {extended ?
+          <div className='recent'>
             <p className="recent-title">Recent</p>
-            <div className='recent-entry'>
-                <img src={assets.message_icon} alt="" />
-                <p>what is react ...</p>
-            </div>
-        </div>
-        :null
+            {prevPrompt.map((item, index) => {
+              return (
+                <div key={index} className='recent-entry'>
+                  <img src={assets.message_icon} alt="" />
+                  <p>{item.slice(0,18)} ...</p>
+                </div>
+              )
+            })}
+          </div>
+          : null
         }
       </div>
       <div className="bottom">
         <div className="bottom-item recent-entry">
-            <img src={assets.question_icon} alt="" />
-            {extended&&<p>Help</p>}
+          <img src={assets.question_icon} alt="" />
+          {extended && <p>Help</p>}
         </div>
         <div className="bottom-item recent-entry">
-            <img src={assets.history_icon} alt="" />
-            {extended&&<p>Activity</p>}
+          <img src={assets.history_icon} alt="" />
+          {extended && <p>Activity</p>}
         </div>
         <div className="bottom-item recent-entry">
-            <img src={assets.setting_icon} alt="" />
-            {extended&&<p>Settings</p>}
+          <img src={assets.setting_icon} alt="" />
+          {extended && <p>Settings</p>}
         </div>
       </div>
     </div>

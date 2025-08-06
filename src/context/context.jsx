@@ -29,8 +29,8 @@ const ContextProvider = (props) => {
     setShowResult(true);
     setRecentPrompt(input);
     setPrevPrompt((prev) => [...prev, input]);
+    console.log(input)
     const response = await genmain(input);
-
     // if (prompt !== undefined) {
     //   console.log("Prompt provided:", prompt);
     //   setRecentPrompt(prompt);
@@ -41,7 +41,7 @@ const ContextProvider = (props) => {
     //   setPrevPrompt((prev) => [...prev, input]);
     //   response = await genmain(input);
     // }
-
+    console.log(response)
 
     let html = response;
 

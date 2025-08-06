@@ -189,7 +189,7 @@ result.title{
 @media (max-width:600px){
     .main-bottom input{
         flex: none;
-        width: 250px;
+        /* width: 200px; */
     }
     .main-bottom img{
         width: 20px;
